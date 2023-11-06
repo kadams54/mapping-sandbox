@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "mapping-sandbox"
+version = "0.1.0"
+description = ""
+authors = ["Kyle Adams <kadams54@gmail.com>"]
+readme = "README.md"
+packages = [{include = "mapping_sandbox"}]
+
+[tool.poetry.dependencies]
+python = ">=3.10.0,<3.11"
+jinja2 = "^3.1.2"
+pydantic = "^2.4.2"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.3"
+pytest-sugar = "^0.9.7"
+rich = "^13.6.0"
+devtools = "^0.12.2"
+ptpython = "^3.0.23"
+
+[tool.ruff]
+# https://beta.ruff.rs/docs/configuration/
+select = ['E', 'W', 'F', 'I', 'B', 'C4', 'ARG', 'SIM']
+ignore = ['W291', 'W292', 'W293']
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,34 @@
+{
+    "type": "namespace/employee",
+    "attributes": {
+        "first_name": "{{ FirstName }}",
+        "last_name": "{{ LastName }}",
+        "ids": [
+            {"value": {"type": [{"value": "hr_id"}]}},
+            {"value": {"id": "{{ EmployeeNumber }}"}}
+        ],
+        "config_flag": [{"value": false}]
+        {% if CompanyCode %}
+        ,
+        "company": [
+            {
+                "value": {
+                    "type": [{"value": ""}],
+                    "company_code": [{"value": "{{ CompanyCode }}"}]
+                    {% if EmploymentStatus %}
+                    ,
+                    "status": [{"value": "{{ EmploymentStatus }}"}]
+                    {% endif %}
+                }
+            }
+        ]
+        {% endif %}
+    },
+    "metadata": [
+        {
+            "type": "namespace/source/name",
+            "value": "{{ EmployeeNumber }}",
+            "update_date": "{{ EventTimestamp }}"
+        }
+    ]
+}
