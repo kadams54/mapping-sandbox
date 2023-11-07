@@ -13,15 +13,21 @@ def mapper(input: dict[str, Any]) -> dict[str, Any]:
         first_name=employee.first_name,
         last_name=employee.last_name,
         ids=[
-            v(Id(type=[v("hr_id")])),
-            v(Id(id=employee.employee_number)),
+            Value[Id](value=Id(type=[Value[str](value="hr_id")])),
+            Value[Id](value=Id(id=employee.employee_number)),
         ],
-        config_flag=[v(False)],
+        config_flag=[Value[bool](value=False)],
     )
     if employee.company_code is not None:
-        attributes.company = [v(Company(company_code=[v(employee.company_code)]))]
+        attributes.company = [
+            Value[Company](
+                value=Company(company_code=[Value[str](value=employee.company_code)])
+            )
+        ]
         if employee.employment_status is not None:
-            attributes.company[0]["value"].status = [v(employee.employment_status)]
+            attributes.company[0].value.status = [
+                Value[str](value=employee.employment_status)
+            ]
 
     employee_out = EmployeeOut(
         attributes=attributes,
@@ -51,8 +57,8 @@ class Value(BaseModel, Generic[T]):
     value: T
 
 
-def v(value: T) -> dict[str, T]:
-    return {"value": value}
+def v(value: T) -> Value[T]:
+    return Value[T](value=value)
 
 
 class FilteredModel(BaseModel):
@@ -67,7 +73,7 @@ class Id(FilteredModel):
 
 
 class Company(FilteredModel):
-    type: list[Value[str]] = [v("")]
+    type: list[Value[str]] = [Value[str](value="")]
     company_code: list[Value[str]]
     status: Optional[list[Value[str]]] = None
 

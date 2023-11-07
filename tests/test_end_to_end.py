@@ -9,13 +9,14 @@ from mapping_sandbox import (
     with_python,
     with_reduce,
 )
+from mapping_sandbox.base import Mappable
 
 # =====================================================================
 # Register all the mappers for testing
 # =====================================================================
 
 
-mappers: list[Callable[[dict[str, Any]], dict[str, Any]]] = [
+mappers: list[Mappable] = [
     with_jinja.mapper,
     with_pipeline.mapper,
     with_pydantic.mapper,
@@ -28,14 +29,14 @@ mappers: list[Callable[[dict[str, Any]], dict[str, Any]]] = [
 # =====================================================================
 
 
-def id_from_fn(val):
+def id_from_fn(val: Any) -> str:
     if isinstance(val, Callable):
         return f"{val.__module__}#{val.__name__}"
-    return val
+    return str(val)
 
 
 @pytest.mark.parametrize("mapper", mappers, ids=id_from_fn)
-def test_map_required_fields(mapper):
+def test_map_required_fields(mapper: Mappable):
     assert mapper(
         {
             "EventTimestamp": "2023-11-02T02:15:42.847038",
@@ -65,7 +66,7 @@ def test_map_required_fields(mapper):
 
 
 @pytest.mark.parametrize("mapper", mappers, ids=id_from_fn)
-def test_map_optional_fields_all(mapper):
+def test_map_optional_fields_all(mapper: Mappable):
     assert mapper(
         {
             "EventTimestamp": "2023-11-02T02:15:42.847038",
@@ -106,7 +107,7 @@ def test_map_optional_fields_all(mapper):
 
 
 @pytest.mark.parametrize("mapper", mappers, ids=id_from_fn)
-def test_map_optional_fields_company_code(mapper):
+def test_map_optional_fields_company_code(mapper: Mappable):
     assert mapper(
         {
             "EventTimestamp": "2023-11-02T02:15:42.847038",

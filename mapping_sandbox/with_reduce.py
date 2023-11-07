@@ -48,4 +48,6 @@ def build_employee(output: dict[str, Any], item: tuple[str, Any]) -> dict[str, A
             output["attributes"]["company"][0]["value"]["status"] = [
                 {"value": employment_status}
             ]
+        case _:
+            pass
     return output

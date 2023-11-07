@@ -1,6 +1,6 @@
 import copy
 from functools import partial, reduce
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 from .base import base_employee
 
@@ -57,11 +57,14 @@ def mapper(input: dict[str, Any]) -> dict[str, Any]:
     )
 
 
+PipelineCallable = Callable[[dict[str, Any], dict[str, Any]], dict[str, Any]]
+
+
 def pipeline(
     initial: dict[str, Any],
-    funcs: list[Callable],
-    args: list[Any] = None,
-    kwargs: dict[str, Any] = None,
+    funcs: list[PipelineCallable],
+    args: Optional[list[Any]] = None,
+    kwargs: Optional[dict[str, Any]] = None,
 ) -> dict[str, Any]:
     args = args or []
     kwargs = kwargs or {}

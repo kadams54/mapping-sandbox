@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Callable, TypeAlias
 
 # =====================================================================
 # The initial skeleton for the output data, provided for your
@@ -13,3 +13,5 @@ base_employee: dict[str, Any] = {
     },
     "metadata": [{"type": "namespace/source/name"}],
 }
+
+Mappable: TypeAlias = Callable[[dict[str, Any]], dict[str, Any]]
