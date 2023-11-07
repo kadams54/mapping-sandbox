@@ -16,11 +16,11 @@ from mapping_sandbox import (
 
 
 mappers: list[Callable[[dict[str, Any]], dict[str, Any]]] = [
-    pytest.param(with_jinja.mapper, id="jinja"),
-    pytest.param(with_pipeline.mapper, id="pipeline"),
-    pytest.param(with_pydantic.mapper, id="pydantic"),
-    pytest.param(with_python.mapper, id="python"),
-    pytest.param(with_reduce.mapper, id="reduce"),
+    with_jinja.mapper,
+    with_pipeline.mapper,
+    with_pydantic.mapper,
+    with_python.mapper,
+    with_reduce.mapper,
 ]
 
 # =====================================================================
@@ -28,7 +28,13 @@ mappers: list[Callable[[dict[str, Any]], dict[str, Any]]] = [
 # =====================================================================
 
 
-@pytest.mark.parametrize("mapper", mappers)
+def id_from_fn(val):
+    if isinstance(val, Callable):
+        return f"{val.__module__}#{val.__name__}"
+    return val
+
+
+@pytest.mark.parametrize("mapper", mappers, ids=id_from_fn)
 def test_map_required_fields(mapper):
     assert mapper(
         {
@@ -58,7 +64,7 @@ def test_map_required_fields(mapper):
     }
 
 
-@pytest.mark.parametrize("mapper", mappers)
+@pytest.mark.parametrize("mapper", mappers, ids=id_from_fn)
 def test_map_optional_fields_all(mapper):
     assert mapper(
         {
@@ -99,7 +105,7 @@ def test_map_optional_fields_all(mapper):
     }
 
 
-@pytest.mark.parametrize("mapper", mappers)
+@pytest.mark.parametrize("mapper", mappers, ids=id_from_fn)
 def test_map_optional_fields_company_code(mapper):
     assert mapper(
         {
