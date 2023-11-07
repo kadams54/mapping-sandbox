@@ -17,11 +17,17 @@ pytest-sugar = "^0.9.7"
 rich = "^13.6.0"
 devtools = "^0.12.2"
 ptpython = "^3.0.23"
+ruff = "^0.1.4"
+black = "^23.10.1"
+mypy = "^1.6.1"
 
 [tool.ruff]
 # https://beta.ruff.rs/docs/configuration/
 select = ['E', 'W', 'F', 'I', 'B', 'C4', 'ARG', 'SIM']
 ignore = ['W291', 'W292', 'W293']
+
+[tool.mypy]
+plugins = ["pydantic.mypy"]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

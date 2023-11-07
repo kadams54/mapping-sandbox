@@ -92,8 +92,37 @@ There are two optional fields: `CompanyCode` and `EmploymentStatus`. If they are
 
 # How to Play
 
-`main.py` has everything you need. At the bottom of the file are the tests, which will run when you run this project. In the space indicated, you can add whatever functions you need in order to make those tests pass.
+## Prerequisites
 
-The only requirement is that you have a top-level, or entrypoint function that takes in a `dict[str, Any]` and returns a `dict[str, Any]`. Once you have that top-level function, you can add it to the `mappers` list so that it's included in the tests. The `mappers` list lets us test multiple implementations at once.
+- Python >= 3.9 as things like dataclasses (3.7), `TypedDict` (3.8), and generics in standard collections (3.9) are leveraged pretty heavily in this problem space.
+- [Poetry](https://python-poetry.org/)
 
-I've included a `map_with_pure_python` implementation as an example and starter function.
+## Getting started
+
+```sh
+poetry install
+```
+
+## Playing with mappers
+
+1. Add a `with_*.py` file for a new mapper implementation or modify one of the existing mappers.
+1. Register any new mappers in the `tests/test-end-to-end.py` file by adding them to the `mappers` list.
+
+The only requirement for a mapper: it must take in a `dict[str, Any]` and returns a `dict[str, Any]`.
+
+## Available tools
+
+There are a number of dev tools available to make it easier to play around with various mapping implementations:
+
+- [Python devtools](https://python-devtools.helpmanual.io/) - use `debug()` to help troubleshoot why a particular mapping isn't working
+- [rich](https://github.com/Textualize/rich) - similar to the above, a better `print()` when playing in the REPL
+- [ptpython](https://github.com/prompt-toolkit/ptpython) - speaking of REPLs, upgrade your standard Python REPL with `ptpython`
+- [pytest-sugar](https://github.com/Teemu/pytest-sugar) - nicer build output
+
+Also: the project leverages the following dev tools:
+
+- [ruff](https://docs.astral.sh/ruff/) for linting
+- [black](https://black.readthedocs.io/en/stable/) for formatting
+- [mypy](https://github.com/python/mypy) for type checking
+
+If you're using VS Code and have the associated extensions installed, they should work out of the box. Other code editors may need a little more configuration.

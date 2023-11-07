@@ -1,7 +1,6 @@
 {
-    "editor.defaultFormatter": "ms-python.black-formatter",
     "mypy-type-checker.importStrategy": "fromEnvironment",
-    "python.languageServer": "Pylance",
-    "python.terminal.activateEnvironment": false,
-    "python.testing.pytestEnabled": true
+    "black-formatter.importStrategy": "fromEnvironment",
+    "python.testing.pytestEnabled": true,
+    "python.analysis.typeCheckingMode": "strict"
 }
