@@ -2,7 +2,13 @@ from typing import Any, Callable
 
 import pytest
 
-from mapping_sandbox import jinja, pipeline, pydantic, python, reduce
+from mapping_sandbox import (
+    with_jinja,
+    with_pipeline,
+    with_pydantic,
+    with_python,
+    with_reduce,
+)
 
 # =====================================================================
 # Register all the mappers for testing
@@ -10,11 +16,11 @@ from mapping_sandbox import jinja, pipeline, pydantic, python, reduce
 
 
 mappers: list[Callable[[dict[str, Any]], dict[str, Any]]] = [
-    jinja.mapper,
-    pipeline.mapper,
-    pydantic.mapper,
-    python.mapper,
-    reduce.mapper,
+    pytest.param(with_jinja.mapper, id="jinja"),
+    pytest.param(with_pipeline.mapper, id="pipeline"),
+    pytest.param(with_pydantic.mapper, id="pydantic"),
+    pytest.param(with_python.mapper, id="python"),
+    pytest.param(with_reduce.mapper, id="reduce"),
 ]
 
 # =====================================================================

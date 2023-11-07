@@ -2,7 +2,7 @@ import copy
 from functools import reduce
 from typing import Any
 
-from ..base import base_employee
+from .base import base_employee
 
 
 def mapper(input: dict[str, Any]) -> dict[str, Any]:

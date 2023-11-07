@@ -21,7 +21,7 @@ def mapper(input: dict[str, Any]) -> dict[str, Any]:
     Returns:
         dict[str, Any]: employee info in output format
     """
-    env = Environment(loader=PackageLoader("mapping_sandbox.jinja"))
+    env = Environment(loader=PackageLoader("mapping_sandbox"))
     template = env.get_template("employee.json")
     return json.loads(template.render(**input))
     # LET'S GOOOOOOOOOOOO

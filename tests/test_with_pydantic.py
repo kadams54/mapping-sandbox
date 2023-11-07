@@ -1,6 +1,6 @@
 from typing import Optional
 
-from mapping_sandbox.pydantic import (
+from mapping_sandbox.with_pydantic import (
     Attributes,
     Company,
     EmployeeOut,
