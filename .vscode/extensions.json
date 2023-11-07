@@ -5,11 +5,11 @@
     // List of extensions which should be recommended for users of this workspace.
     "recommendations": [
       "ms-python.python",
-      "ms-python.vscode-pylance",
       "ms-python.black-formatter",
+      "ms-python.mypy-type-checker",
       "charliermarsh.ruff"
     ],
     // List of extensions recommended by VS Code that should not be recommended for users of this workspace.
-    "unwantedRecommendations": ["ms-python.pylint", "ms-python.mypy"]
+    "unwantedRecommendations": ["ms-python.pylint"]
   }
   

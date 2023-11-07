@@ -1,4 +1,4 @@
-from typing import Any, Callable
+from typing import Any
 
 import pytest
 
@@ -30,7 +30,7 @@ mappers: list[Mappable] = [
 
 
 def id_from_fn(val: Any) -> str:
-    if isinstance(val, Callable):
+    if callable(val):
         return f"{val.__module__}#{val.__name__}"
     return str(val)
 
