@@ -25,29 +25,27 @@ def mapper(input: dict[str, Any]) -> dict[str, Any]:
 
 
 def build_employee(output: dict[str, Any], item: tuple[str, Any]) -> dict[str, Any]:
-    match item:
-        case ("EventTimestamp", event_timestamp):
-            output["metadata"][0]["update_date"] = event_timestamp
-        case ("EmployeeNumber", employee_number):
-            output["attributes"]["ids"].append({"value": {"id": employee_number}})
-            output["metadata"][0]["value"] = employee_number
-        case ("FirstName", first_name):
-            output["attributes"]["first_name"] = first_name
-        case ("LastName", last_name):
-            output["attributes"]["last_name"] = last_name
-        case ("CompanyCode", company_code):
-            output["attributes"]["company"] = [
-                {
-                    "value": {
-                        "type": [{"value": ""}],
-                        "company_code": [{"value": company_code}],
-                    }
+    key, value = item
+    if key == "EventTimestamp":
+        output["metadata"][0]["update_date"] = value
+    elif key == "EmployeeNumber":
+        output["attributes"]["ids"].append({"value": {"id": value}})
+        output["metadata"][0]["value"] = value
+    elif key == "FirstName":
+        output["attributes"]["first_name"] = value
+    elif key == "LastName":
+        output["attributes"]["last_name"] = value
+    elif key == "CompanyCode":
+        output["attributes"]["company"] = [
+            {
+                "value": {
+                    "type": [{"value": ""}],
+                    "company_code": [{"value": value}],
                 }
-            ]
-        case ("EmploymentStatus", employment_status):
-            output["attributes"]["company"][0]["value"]["status"] = [
-                {"value": employment_status}
-            ]
-        case _:
-            pass
+            }
+        ]
+    elif key == "EmploymentStatus":
+        output["attributes"]["company"][0]["value"]["status"] = [{"value": value}]
+    else:
+        pass
     return output

@@ -1,4 +1,10 @@
-from typing import Any, Callable, TypeAlias
+import sys
+from typing import Any, Callable
+
+if sys.version_info >= (3, 10):
+    from typing import TypeAlias
+else:
+    from typing_extensions import TypeAlias
 
 # =====================================================================
 # The initial skeleton for the output data, provided for your
