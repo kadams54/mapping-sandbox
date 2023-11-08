@@ -1,7 +1,6 @@
-from typing import Any, Generic, Optional, TypeVar
+from typing import Any, TypeVar
 
-from pydantic import BaseModel, ConfigDict
-from pydantic.alias_generators import to_pascal
+from .schema import Attributes, Company, EmployeeIn, EmployeeOut, Id, Metadata, Value
 
 T = TypeVar("T")
 
@@ -20,86 +19,36 @@ def mapper(input: dict[str, Any]) -> dict[str, Any]:
     Returns:
         dict[str, Any]: employee info in output format
     """
-    employee = Employee(**input)
+    employee_in = EmployeeIn(**input)
 
     attributes = Attributes(
-        first_name=employee.first_name,
-        last_name=employee.last_name,
+        first_name=employee_in.first_name,
+        last_name=employee_in.last_name,
         ids=[
             Value[Id](value=Id(type=[Value[str](value="hr_id")])),
-            Value[Id](value=Id(id=employee.employee_number)),
+            Value[Id](value=Id(id=employee_in.employee_number)),
         ],
         config_flag=[Value[bool](value=False)],
     )
-    if employee.company_code is not None:
+    if employee_in.company_code is not None:
         attributes.company = [
             Value[Company](
-                value=Company(company_code=[Value[str](value=employee.company_code)])
+                value=Company(company_code=[Value[str](value=employee_in.company_code)])
             )
         ]
-        if employee.employment_status is not None:
+        if employee_in.employment_status is not None:
             attributes.company[0].value.status = [
-                Value[str](value=employee.employment_status)
+                Value[str](value=employee_in.employment_status)
             ]
 
     employee_out = EmployeeOut(
         attributes=attributes,
         metadata=[
             Metadata(
-                value=employee.employee_number,
-                update_date=employee.event_timestamp,
+                value=employee_in.employee_number,
+                update_date=employee_in.event_timestamp,
             )
         ],
     )
 
     return employee_out.model_dump(exclude_none=True)
-
-
-class Employee(BaseModel):
-    model_config = ConfigDict(alias_generator=to_pascal)
-
-    event_timestamp: str
-    employee_number: str
-    first_name: str
-    last_name: str
-    company_code: Optional[str] = None
-    employment_status: Optional[str] = None
-
-
-class Value(BaseModel, Generic[T]):
-    value: T
-
-
-def v(value: T) -> Value[T]:
-    return Value[T](value=value)
-
-
-class Id(BaseModel):
-    type: Optional[list[Value[str]]] = None
-    id: Optional[str] = None
-
-
-class Company(BaseModel):
-    type: list[Value[str]] = [Value[str](value="")]
-    company_code: list[Value[str]]
-    status: Optional[list[Value[str]]] = None
-
-
-class Attributes(BaseModel):
-    first_name: Optional[str] = None
-    last_name: Optional[str] = None
-    ids: list[Value[Id]]
-    config_flag: list[Value[bool]]
-    company: Optional[list[Value[Company]]] = None
-
-
-class Metadata(BaseModel):
-    type: str = "namespace/source/name"
-    value: Optional[str] = None
-    update_date: Optional[str] = None
-
-
-class EmployeeOut(BaseModel):
-    type: str = "namespace/employee"
-    attributes: Attributes
-    metadata: list[Metadata]

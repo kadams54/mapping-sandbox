@@ -1,8 +1,8 @@
 import copy
-from functools import partial, reduce
-from typing import Any, Callable, Optional
+from typing import Any
 
 from .base import base_employee
+from .functools import pipeline
 
 
 def mapper(input: dict[str, Any]) -> dict[str, Any]:
@@ -53,51 +53,36 @@ def mapper(input: dict[str, Any]) -> dict[str, Any]:
             map_company_code,
             map_employment_status,
         ],
-        args=[input],
+        curried_args=[input],
     )
 
 
-PipelineCallable = Callable[[dict[str, Any], dict[str, Any]], dict[str, Any]]
-
-
-def pipeline(
-    initial: dict[str, Any],
-    funcs: list[PipelineCallable],
-    args: Optional[list[Any]] = None,
-    kwargs: Optional[dict[str, Any]] = None,
-) -> dict[str, Any]:
-    args = args or []
-    kwargs = kwargs or {}
-    curried_funcs = [partial(f, *args, **kwargs) for f in funcs]
-    return reduce(lambda out, f: f(out), curried_funcs, initial)
-
-
 def map_event_timestamp(
-    input: dict[str, Any], output: dict[str, Any]
+    output: dict[str, Any], input: dict[str, Any]
 ) -> dict[str, Any]:
     output["metadata"][0]["update_date"] = input["EventTimestamp"]
     return output
 
 
 def map_employee_number(
-    input: dict[str, Any], output: dict[str, Any]
+    output: dict[str, Any], input: dict[str, Any]
 ) -> dict[str, Any]:
     output["attributes"]["ids"].append({"value": {"id": input["EmployeeNumber"]}})
     output["metadata"][0]["value"] = input["EmployeeNumber"]
     return output
 
 
-def map_first_name(input: dict[str, Any], output: dict[str, Any]) -> dict[str, Any]:
+def map_first_name(output: dict[str, Any], input: dict[str, Any]) -> dict[str, Any]:
     output["attributes"]["first_name"] = input["FirstName"]
     return output
 
 
-def map_last_name(input: dict[str, Any], output: dict[str, Any]) -> dict[str, Any]:
+def map_last_name(output: dict[str, Any], input: dict[str, Any]) -> dict[str, Any]:
     output["attributes"]["last_name"] = input["LastName"]
     return output
 
 
-def map_company_code(input: dict[str, Any], output: dict[str, Any]) -> dict[str, Any]:
+def map_company_code(output: dict[str, Any], input: dict[str, Any]) -> dict[str, Any]:
     if "CompanyCode" not in input:
         return output
     output["attributes"]["company"] = [
@@ -112,7 +97,7 @@ def map_company_code(input: dict[str, Any], output: dict[str, Any]) -> dict[str,
 
 
 def map_employment_status(
-    input: dict[str, Any], output: dict[str, Any]
+    output: dict[str, Any], input: dict[str, Any]
 ) -> dict[str, Any]:
     if "EmploymentStatus" not in input:
         return output
