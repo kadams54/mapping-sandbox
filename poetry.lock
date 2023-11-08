@@ -429,8 +429,8 @@ python-versions = "*"
 
 [metadata]
 lock-version = "1.1"
-python-versions = ">=3.10.0,<3.11"
-content-hash = "c69c5a9a9fd78a0ab7d4d20cbd963c1a6b66e1741ee0bfe369b33e78383738da"
+python-versions = ">=3.9"
+content-hash = "c159013ab14a378f617a417940c7dbf07af255114333673c2fe1ef194bc0748d"
 
 [metadata.files]
 annotated-types = [
