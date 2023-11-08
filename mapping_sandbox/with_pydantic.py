@@ -7,6 +7,19 @@ T = TypeVar("T")
 
 
 def mapper(input: dict[str, Any]) -> dict[str, Any]:
+    """This mapper uses Pydantic to build up at least one and possibly two
+    models of the data.  Even though Pydantic doesn't solve the mapping issue
+    for us, using the models does get us more validation and type checking on
+    potentially unsafe data. It also lends itself, depending on the approach
+    taken, to mapping in smaller chunks, which is, in turn, more easily unit
+    testable.
+
+    Args:
+        input (dict[str, Any]): employee info
+
+    Returns:
+        dict[str, Any]: employee info in output format
+    """
     employee = Employee(**input)
 
     attributes = Attributes(

@@ -6,12 +6,11 @@ from .base import base_employee
 
 
 def mapper(input: dict[str, Any]) -> dict[str, Any]:
-    """This approach uses reduce + pattern matching to build the
-    employee output. It also suffers from the same two issues in the
-    vanilla Python approach; however, we're starting to see field-
-    specific logic emerging in each case. These blocks of logic could
-    be organized into their own functions and unit tested. That said,
-    the unit tests would still need to know a great deal about the
+    """This approach uses reduce to build the employee output. It also suffers
+    from the same two issues in the vanilla Python approach; however, we're
+    starting to see field- specific logic emerging in each case. These blocks of
+    logic could be organized into their own functions and unit tested. That
+    said, the unit tests would still need to know a great deal about the
     convoluted output data structure.
 
     Args:
