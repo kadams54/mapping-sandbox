@@ -1,6 +1,6 @@
 from typing import Any, Generic, Optional, TypeVar
 
-from pydantic import BaseModel, ConfigDict, model_serializer
+from pydantic import BaseModel, ConfigDict
 from pydantic.alias_generators import to_pascal
 
 T = TypeVar("T")
@@ -52,7 +52,7 @@ def mapper(input: dict[str, Any]) -> dict[str, Any]:
         ],
     )
 
-    return employee_out.model_dump()
+    return employee_out.model_dump(exclude_none=True)
 
 
 class Employee(BaseModel):
@@ -74,24 +74,18 @@ def v(value: T) -> Value[T]:
     return Value[T](value=value)
 
 
-class FilteredModel(BaseModel):
-    @model_serializer
-    def ser_model(self) -> dict[str, Any]:
-        return {k: v for k, v in dict(self).items() if v is not None}
-
-
-class Id(FilteredModel):
+class Id(BaseModel):
     type: Optional[list[Value[str]]] = None
     id: Optional[str] = None
 
 
-class Company(FilteredModel):
+class Company(BaseModel):
     type: list[Value[str]] = [Value[str](value="")]
     company_code: list[Value[str]]
     status: Optional[list[Value[str]]] = None
 
 
-class Attributes(FilteredModel):
+class Attributes(BaseModel):
     first_name: Optional[str] = None
     last_name: Optional[str] = None
     ids: list[Value[Id]]
@@ -99,13 +93,13 @@ class Attributes(FilteredModel):
     company: Optional[list[Value[Company]]] = None
 
 
-class Metadata(FilteredModel):
+class Metadata(BaseModel):
     type: str = "namespace/source/name"
     value: Optional[str] = None
     update_date: Optional[str] = None
 
 
-class EmployeeOut(FilteredModel):
+class EmployeeOut(BaseModel):
     type: str = "namespace/employee"
     attributes: Attributes
     metadata: list[Metadata]
