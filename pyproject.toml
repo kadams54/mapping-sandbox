@@ -20,6 +20,7 @@ ptpython = "^3.0.23"
 ruff = "^0.1.4"
 black = "^23.10.1"
 mypy = "^1.6.1"
+hypothesis = "^6.88.3"
 
 [tool.ruff]
 # https://beta.ruff.rs/docs/configuration/
