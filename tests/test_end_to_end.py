@@ -6,6 +6,7 @@ from mapping_sandbox import (
     with_jinja,
     with_pipeline,
     with_pydantic,
+    with_pydantic_pipeline,
     with_python,
     with_reduce,
 )
@@ -20,6 +21,7 @@ mappers: list[Mappable] = [
     with_jinja.mapper,
     with_pipeline.mapper,
     with_pydantic.mapper,
+    with_pydantic_pipeline.mapper,
     with_python.mapper,
     with_reduce.mapper,
 ]
