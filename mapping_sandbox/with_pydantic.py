@@ -1,8 +1,6 @@
-from typing import Any, TypeVar
+from typing import Any
 
 from .schema import Attributes, Company, EmployeeIn, EmployeeOut, Id, Metadata, Value
-
-T = TypeVar("T")
 
 
 def mapper(input: dict[str, Any]) -> dict[str, Any]:
